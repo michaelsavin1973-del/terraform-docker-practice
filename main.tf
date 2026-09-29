@@ -16,6 +16,11 @@ resource "docker_image" "nginx" {
 variable "external_port" {
   type    = number
   default = 8083
+
+  validation {
+    condition     = var.external_port >= 1024 && var.external_port <= 65535
+    error_message = "External port must be between 1024 and 65535."
+  }
 }
 
 resource "docker_container" "nginx" {

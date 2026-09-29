@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     docker = {
-      source = "kreuzwerker/docker"
+      source  = "kreuzwerker/docker"
       version = "~> 4.5"
     }
   }
@@ -9,12 +9,12 @@ terraform {
 provider "docker" {}
 
 resource "docker_image" "nginx" {
-  name = "nginx:alpine"
+  name         = "nginx:alpine"
   keep_locally = true
-} 
+}
 
 variable "external_port" {
-  type = number
+  type    = number
   default = 8083
 }
 

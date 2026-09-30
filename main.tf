@@ -6,12 +6,8 @@ terraform {
     }
   }
 }
-provider "docker" {}
 
-resource "docker_image" "nginx" {
-  name         = "nginx:alpine"
-  keep_locally = true
-}
+provider "docker" {}
 
 variable "external_port" {
   type    = number
@@ -23,20 +19,27 @@ variable "external_port" {
   }
 }
 
-resource "docker_container" "nginx" {
-  name  = "terraform-nginx-practice"
-  image = docker_image.nginx.image_id
+module "nginx" {
+  source = "./modules/nginx"
 
-  ports {
-    internal = 80
-    external = var.external_port
-  }
+  container_name = "terraform-nginx-practice"
+  external_port  = var.external_port
 }
 
 output "container_id" {
-  value = docker_container.nginx.id
+  value = module.nginx.container_id
 }
 
 output "url" {
-  value = "http://localhost:${var.external_port}"
+  value = module.nginx.url
+}
+
+moved {
+  from = docker_image.nginx
+  to   = module.nginx.docker_image.nginx
+}
+
+moved {
+  from = docker_container.nginx
+  to   = module.nginx.docker_container.nginx
 }

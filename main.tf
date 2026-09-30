@@ -22,7 +22,7 @@ variable "external_port" {
 module "nginx" {
   source = "./modules/nginx"
 
-container_name = "terraform-nginx-practice"
+  container_name = "terraform-nginx-practice"
   external_port  = var.external_port
 }
 

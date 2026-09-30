@@ -31,7 +31,7 @@ output "container_id" {
 }
 
 output "url" {
-  value = module.nginx.url_typo
+  value = module.nginx.url
 }
 
 moved {

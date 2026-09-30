@@ -26,6 +26,13 @@ module "nginx" {
   external_port  = var.external_port
 }
 
+module "nginx_second" {
+  source = "./modules/nginx"
+
+  container_name = "terraform-nginx-second"
+  external_port  = 8085
+}
+
 output "container_id" {
   value = module.nginx.container_id
 }
@@ -42,4 +49,8 @@ moved {
 moved {
   from = docker_container.nginx
   to   = module.nginx.docker_container.nginx
+}
+
+output "second_url" {
+  value = module.nginx_second.url
 }
